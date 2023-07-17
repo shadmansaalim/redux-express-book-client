@@ -1,0 +1,148 @@
+.App {
+  text-align: center;
+}
+
+body {
+  background: #fafdfa;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap");
+
+.btn-success {
+  background-color: #006b5a !important;
+}
+.btn-success:hover {
+  background-color: #014d40 !important;
+}
+
+.btn-outline-success {
+  border-color: #006b5a !important;
+}
+.btn-outline-success:hover {
+  background-color: #006b5a !important;
+}
+
+body {
+  font-family: "Space Grotesk", sans-serif !important;
+}
+
+/* Spinner styling */
+.spinner {
+  width: 70px;
+  text-align: center;
+  height: 100vh;
+  margin: 0 auto;
+}
+
+.spinner > div {
+  width: 20px;
+  height: 20px;
+  background-color: #333;
+
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+  0%,
+  80%,
+  100% {
+    -webkit-transform: scale(0);
+  }
+  40% {
+    -webkit-transform: scale(1);
+  }
+}
+
+@keyframes sk-bouncedelay {
+  0%,
+  80%,
+  100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  40% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+.swal-modal .swal-text {
+  text-align: center;
+}
+
+input.form-control,
+textarea.form-control {
+  border-radius: 0.65em !important;
+  border-color: #dae5e0 !important;
+  /* border-width: 0.15em !important; */
+}
+
+/* .btn {
+  border-radius: 0.7em !important;
+  padding: 0.85em 1.5em !important;
+} */
+
+.progress {
+  display: flex;
+  height: 1rem;
+  overflow: hidden;
+  font-size: 0.75rem;
+  background-color: #dae5e0 !important;
+  border-radius: 1rem !important;
+}
+
+.progress-bar {
+  color: white !important;
+}
+
+.progress-bar.bg-success {
+  background-color: #2a4a5f !important;
+}
