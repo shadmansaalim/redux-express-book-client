@@ -18,8 +18,17 @@ export default function Header() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto d-flex align-items-center">
+            <Nav.Link className="text-dark me-0 me-lg-2 my-0" href="/">
+              Home
+            </Nav.Link>
             <Nav.Link className="text-dark me-0 me-lg-2 my-0" href="/all-books">
               All Books
+            </Nav.Link>
+            <Nav.Link
+              className="text-dark me-0 me-lg-2 my-0"
+              href="/add-new-book"
+            >
+              Add New
             </Nav.Link>
             <Nav.Link
               className="text-dark me-0 me-lg-2 my-0"
