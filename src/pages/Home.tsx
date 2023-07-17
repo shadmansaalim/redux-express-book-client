@@ -1,7 +1,11 @@
 import { Row, Container } from "react-bootstrap";
 import { Col, Card } from "react-bootstrap";
+import { useGetAllBooksQuery } from "../redux/features/books/bookApi";
 
 export default function Home() {
+  const { data, isLoading, error } = useGetAllBooksQuery(undefined);
+  console.log(data);
+
   return (
     <div className="py-5">
       <Container className="my-5">
