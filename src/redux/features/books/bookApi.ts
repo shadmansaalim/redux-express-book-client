@@ -5,6 +5,9 @@ const bookApi = api.injectEndpoints({
     getAllBooks: builder.query({
       query: () => `/all-books`,
     }),
+    getRecentBooks: builder.query({
+      query: () => `/recent-books`,
+    }),
     getSingleBook: builder.query({
       query: (id) => `/books/${id}`,
     }),
@@ -27,6 +30,7 @@ const bookApi = api.injectEndpoints({
 
 export const {
   useGetAllBooksQuery,
+  useGetRecentBooksQuery,
   useGetSingleBookQuery,
   usePostBookMutation,
   useUpdateBookMutation,
