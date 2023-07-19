@@ -2,20 +2,16 @@ import { useState, ChangeEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { useLoginMutation } from "../redux/features/users/userApi";
-import { setIsLoading } from "../redux/features/users/userSlice";
+import { useAppDispatch } from "../redux/hooks";
+import { loginUser, setLoading } from "../redux/features/users/userSlice";
 import swal from "sweetalert";
 
 const Login = () => {
   const [loginData, setLoginData] = useState<any>({});
 
-  const { isLoading } = useAppSelector((state) => state.users);
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
-
-  const [loginMutation] = useLoginMutation();
 
   const handleOnBlur = (e: ChangeEvent<HTMLInputElement>) => {
     const field = e.target.name;
@@ -30,20 +26,18 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      dispatch(setIsLoading(true));
-      const res: any = await loginMutation(loginData);
+      dispatch(setLoading(true));
 
-      if (res.data) {
-        swal("fefs", "", "success");
+      dispatch(loginUser(loginData));
 
-        navigate("/");
-      } else {
-        swal("fsfsd", "", "error");
-      }
-      dispatch(setIsLoading(false));
+      swal("fefs", "", "success");
+
+      navigate("/");
+
+      dispatch(setLoading(false));
     } catch (error: any) {
       console.log("FAILED ", error);
-      dispatch(setIsLoading(false));
+      dispatch(setLoading(false));
     }
   };
 

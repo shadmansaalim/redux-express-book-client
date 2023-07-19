@@ -2,21 +2,16 @@ import { useState, ChangeEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { useSignUpMutation } from "../redux/features/users/userApi";
-import { setIsLoading, setUser } from "../redux/features/users/userSlice";
+import { useAppDispatch } from "../redux/hooks";
+import { createUser, setLoading } from "../redux/features/users/userSlice";
 import swal from "sweetalert";
-import Cookies from "js-cookie";
 
 const Signup = () => {
   const [signUpData, setSignUpData] = useState<any>({});
 
   const navigate = useNavigate();
 
-  const { isLoading } = useAppSelector((state) => state.users);
   const dispatch = useAppDispatch();
-
-  const [signUpMutation] = useSignUpMutation();
 
   const handleOnBlur = (e: ChangeEvent<HTMLInputElement>) => {
     const field = e.target.name;
@@ -31,26 +26,20 @@ const Signup = () => {
     // Signup
 
     try {
-      dispatch(setIsLoading(true));
-      const res: any = await signUpMutation(signUpData);
+      dispatch(setLoading(true));
 
-      console.log(res);
+      dispatch(createUser(signUpData));
 
-      if (res.data) {
-        swal("dewd", "", "success");
+      swal("dewd", "", "success");
 
-        Cookies.set("token", res?.data?.token);
+      dispatch(setLoading(false));
 
-        navigate("/");
-        setUser(signUpData.email);
-      } else {
-        swal("cerfer", "", "error");
-      }
-      dispatch(setIsLoading(false));
+      navigate("/");
+
       e.target.reset();
     } catch (error: any) {
       console.log("FAILED ", error);
-      dispatch(setIsLoading(false));
+      dispatch(setLoading(false));
     }
   };
   return (
@@ -62,17 +51,6 @@ const Signup = () => {
           <div className="col-11 col-md-8 col-lg-7 col-xl-4 shadow-lg p-3 p-md-5 rounded-3 mx-auto mx-xl-0 ms-xl-auto bg-white">
             <h1 className="text-start login-title mb-5 fw-bold">Sign Up</h1>
             <form onSubmit={handleSignUpSubmit}>
-              <div className="form-floating mb-3">
-                <input
-                  onBlur={handleOnBlur}
-                  name="name"
-                  type="text"
-                  className="form-control"
-                  id="floatingSignUpName"
-                  placeholder="Your Name"
-                />
-                <label htmlFor="floatingSignUpName">Your Name</label>
-              </div>
               <div className="form-floating mb-3">
                 <input
                   onBlur={handleOnBlur}

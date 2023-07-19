@@ -3,11 +3,15 @@ import Book from "../components/Book";
 import { useGetAllBooksQuery } from "../redux/features/books/bookApi";
 import { IBook } from "../types/globalTypes";
 import Loading from "../components/Loading";
+import { useAppSelector } from "../redux/hooks";
 
 export default function Home() {
   const { data, isLoading } = useGetAllBooksQuery({
     recent: true,
   });
+
+  const { user } = useAppSelector((state) => state.users);
+  console.log(user);
 
   return (
     <>
