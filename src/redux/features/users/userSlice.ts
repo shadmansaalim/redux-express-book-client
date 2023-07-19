@@ -22,12 +22,12 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<string | null>) => {
       state.user.email = action.payload;
     },
-    setLoading: (state, action: PayloadAction<boolean>) => {
+    setIsLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
   },
 });
 
-export const { setUser, setLoading } = userSlice.actions;
+export const { setUser, setIsLoading } = userSlice.actions;
 
 export default userSlice.reducer;

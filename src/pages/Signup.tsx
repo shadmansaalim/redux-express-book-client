@@ -2,12 +2,21 @@ import { useState, ChangeEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { useSignUpMutation } from "../redux/features/users/userApi";
+import { setIsLoading, setUser } from "../redux/features/users/userSlice";
 import swal from "sweetalert";
+import Cookies from "js-cookie";
 
 const Signup = () => {
   const [signUpData, setSignUpData] = useState<any>({});
 
   const navigate = useNavigate();
+
+  const { isLoading } = useAppSelector((state) => state.users);
+  const dispatch = useAppDispatch();
+
+  const [signUpMutation] = useSignUpMutation();
 
   const handleOnBlur = (e: ChangeEvent<HTMLInputElement>) => {
     const field = e.target.name;
@@ -17,20 +26,32 @@ const Signup = () => {
     setSignUpData(newSignUpData);
   };
 
-  const handleSignUpSubmit = (e: ChangeEvent<HTMLFormElement>) => {
-    if (signUpData.password !== signUpData?.password2) {
-      swal(
-        "Passwords doesn't match!",
-        "Please check password and then try again",
-        "error"
-      );
-    } else {
-      // Signup
-
-      e.target.reset();
-    }
-
+  const handleSignUpSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // Signup
+
+    try {
+      dispatch(setIsLoading(true));
+      const res: any = await signUpMutation(signUpData);
+
+      console.log(res);
+
+      if (res.data) {
+        swal("dewd", "", "success");
+
+        Cookies.set("token", res?.data?.token);
+
+        navigate("/");
+        setUser(signUpData.email);
+      } else {
+        swal("cerfer", "", "error");
+      }
+      dispatch(setIsLoading(false));
+      e.target.reset();
+    } catch (error: any) {
+      console.log("FAILED ", error);
+      dispatch(setIsLoading(false));
+    }
   };
   return (
     <div className="bg">
@@ -73,19 +94,6 @@ const Signup = () => {
                   placeholder="Password"
                 />
                 <label htmlFor="floatingSignUpPassword">Password</label>
-              </div>
-              <div className="form-floating mb-4">
-                <input
-                  onBlur={handleOnBlur}
-                  name="password2"
-                  type="password"
-                  className="form-control"
-                  id="floatingSignUpPassword2"
-                  placeholder="Confirm Password"
-                />
-                <label htmlFor="floatingSignUpPassword2">
-                  Confirm Password
-                </label>
               </div>
 
               <div className="text-center  mt-4 pt-2">
