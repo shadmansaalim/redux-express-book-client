@@ -1,0 +1,3 @@
+- Live Link : https://book-redux-frontend.netlify.app/
+- Frontend Repo : https://github.com/shadmansaalim/redux-express-book-client
+- Backend Repo : https://github.com/shadmansaalim/redux-express-book-server
