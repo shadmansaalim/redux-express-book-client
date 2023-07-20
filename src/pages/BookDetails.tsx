@@ -11,9 +11,128 @@ import {
   useAddBookReviewMutation,
   useDeleteBookMutation,
   useGetSingleBookQuery,
+  useUpdateBookMutation,
 } from "../redux/features/books/bookApi";
 import swal from "sweetalert";
 import { useNavigate } from "react-router";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import { resetBookData, setBookData } from "../redux/features/books/bookSlice";
+
+function EditBookModal(props) {
+  const { bookData }: any = useAppSelector((state) => state.book);
+  const dispatch = useAppDispatch();
+
+  const [updateBook] = useUpdateBookMutation();
+
+  const handleOnChange = (e: any) => {
+    const newBookData: any = { ...props.book };
+    newBookData[e.target.name] = e.target.value;
+    console.log(newBookData);
+    dispatch(setBookData(newBookData));
+  };
+
+  const handleBookSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    const options = {
+      id: bookData._id,
+      data: bookData,
+    };
+
+    const res: any = await updateBook(options);
+
+    console.log(res);
+
+    if (res?.data) {
+      swal("Book edited successfully", "", "success");
+      resetBookData();
+    } else {
+      swal("Failed to edit book", "", "error");
+    }
+    props.onHide();
+  };
+
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Edit your book details
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <form onSubmit={handleBookSubmit}>
+          <div className="mt-4 mb-3">
+            <label htmlFor="title" className="form-label">
+              Book Title
+            </label>
+            <input
+              defaultValue={props.book.title}
+              name="title"
+              onChange={handleOnChange}
+              type="text"
+              className="form-control"
+              id="title"
+              aria-describedby="title"
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="author" className="form-label">
+              Book Author
+            </label>
+            <input
+              defaultValue={props.book.author}
+              name="author"
+              onChange={handleOnChange}
+              type="text"
+              className="form-control"
+              id="author"
+              aria-describedby="author"
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="genre" className="form-label">
+              Book Genre
+            </label>
+            <input
+              defaultValue={props.book.genre}
+              name="genre"
+              onChange={handleOnChange}
+              type="text"
+              className="form-control"
+              id="genre"
+              aria-describedby="genre"
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="publicationDate" className="form-label">
+              Book Publication Date
+            </label>
+            <input
+              defaultValue={props.book.publicationDate}
+              name="publicationDate"
+              onChange={handleOnChange}
+              type="text"
+              className="form-control"
+              id="publicationDate"
+              aria-describedby="publicationDate"
+              placeholder="DD/MM/YY"
+            />
+          </div>
+
+          <button type="submit" className="btn btn-primary w-100">
+            Submit
+          </button>
+        </form>
+      </Modal.Body>
+    </Modal>
+  );
+}
 
 const BookDetails = () => {
   const dispatch = useAppDispatch();
@@ -79,6 +198,8 @@ const BookDetails = () => {
     }
   };
 
+  const [modalShow, setModalShow] = useState(false);
+
   return (
     <>
       <Header />
@@ -118,6 +239,20 @@ const BookDetails = () => {
         <div className="col-6">
           {user.email === data?.book?.email && (
             <div className="mb-3">
+              <Button
+                className="me-2"
+                variant="primary"
+                onClick={() => setModalShow(true)}
+              >
+                Edit Book
+              </Button>
+
+              <EditBookModal
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+                book={data?.book}
+              />
+
               <button onClick={handleDeleteBook} className="btn btn-danger">
                 Delete Book
               </button>
