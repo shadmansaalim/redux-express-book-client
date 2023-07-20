@@ -3,7 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../redux/hooks";
-import { createUser, setLoading } from "../redux/features/users/userSlice";
+import {
+  createUser,
+  setLoading,
+  setUser,
+} from "../redux/features/users/userSlice";
 import swal from "sweetalert";
 
 const Signup = () => {
@@ -28,12 +32,12 @@ const Signup = () => {
     try {
       dispatch(setLoading(true));
 
-      dispatch(createUser(signUpData));
+      dispatch(
+        createUser({ email: signUpData.email, password: signUpData.password })
+      );
 
       swal("dewd", "", "success");
-
       dispatch(setLoading(false));
-
       navigate("/");
 
       e.target.reset();

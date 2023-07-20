@@ -1,14 +1,19 @@
-import { useState, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../redux/hooks";
-import { loginUser, setLoading } from "../redux/features/users/userSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import {
+  loginUser,
+  setLoading,
+  setUser,
+} from "../redux/features/users/userSlice";
 import swal from "sweetalert";
 
 const Login = () => {
   const [loginData, setLoginData] = useState<any>({});
 
+  const { user, isLoading } = useAppSelector((state) => state.users);
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
@@ -28,18 +33,23 @@ const Login = () => {
     try {
       dispatch(setLoading(true));
 
-      dispatch(loginUser(loginData));
-
-      swal("fefs", "", "success");
-
-      navigate("/");
-
+      dispatch(
+        loginUser({ email: loginData.email, password: loginData.password })
+      );
+      swal("dewd", "", "success");
       dispatch(setLoading(false));
+      navigate("/");
     } catch (error: any) {
       console.log("FAILED ", error);
       dispatch(setLoading(false));
     }
   };
+
+  useEffect(() => {
+    if (user.email && !isLoading) {
+      navigate("/");
+    }
+  }, [user.email, isLoading]);
 
   return (
     <div className="bg">

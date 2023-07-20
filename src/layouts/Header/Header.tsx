@@ -9,7 +9,7 @@ import { setUser } from "../../redux/features/users/userSlice";
 import { auth } from "../../lib/firebase";
 
 export default function Header() {
-  const { user } = useAppSelector((state) => state.users);
+  const { user, isLoading } = useAppSelector((state) => state.users);
 
   const dispatch = useAppDispatch();
 
@@ -37,12 +37,14 @@ export default function Header() {
             <Nav.Link className="text-dark me-0 me-lg-2 my-0" href="/all-books">
               All Books
             </Nav.Link>
-            <Nav.Link
-              className="text-dark me-0 me-lg-2 my-0"
-              href="/add-new-book"
-            >
-              Add New
-            </Nav.Link>
+            {user.email && (
+              <Nav.Link
+                className="text-dark me-0 me-lg-2 my-0"
+                href="/add-new-book"
+              >
+                Add New
+              </Nav.Link>
+            )}
             <Nav.Link
               className="text-dark me-0 me-lg-2 my-0"
               href="/announcements"

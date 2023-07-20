@@ -36,9 +36,9 @@ const Book: React.FC<BookProps> = ({ book }) => {
               <span className="fw-bold">Publication</span>
               <span>{publicationDate}</span>
             </div>
-            {/* <button className="w-100 btn btn-success rounded-pill">
-              Add Book
-            </button> */}
+            <button className="mt-2 w-100 btn btn-success rounded-pill">
+              Book Details
+            </button>
           </Card.Text>
         </Card.Body>
       </Card>
