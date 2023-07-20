@@ -1,6 +1,7 @@
 import React from "react";
 import { Col, Card } from "react-bootstrap";
 import { IBook } from "../types/globalTypes";
+import { useNavigate } from "react-router-dom";
 
 interface BookProps {
   book: IBook;
@@ -8,6 +9,8 @@ interface BookProps {
 
 const Book: React.FC<BookProps> = ({ book }) => {
   const { _id, title, genre, author, publicationDate } = book;
+
+  const navigate = useNavigate();
 
   return (
     <Col>
@@ -36,7 +39,10 @@ const Book: React.FC<BookProps> = ({ book }) => {
               <span className="fw-bold">Publication</span>
               <span>{publicationDate}</span>
             </div>
-            <button className="mt-2 w-100 btn btn-success rounded-pill">
+            <button
+              onClick={() => navigate(`/book/${_id}`)}
+              className="mt-2 w-100 btn btn-success rounded-pill"
+            >
               Book Details
             </button>
           </Card.Text>

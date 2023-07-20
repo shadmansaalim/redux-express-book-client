@@ -33,6 +33,9 @@ export default function AddNewBook() {
 
   const handleBookSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    const newBookData: any = { ...bookData };
+    newBookData.reviews = [];
+    dispatch(setBookData(newBookData));
 
     const res: any = await addBook({ ...bookData, email: user.email });
 

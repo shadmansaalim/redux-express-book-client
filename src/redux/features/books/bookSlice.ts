@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface IBookData {
   bookData: {
@@ -8,6 +7,7 @@ export interface IBookData {
     author: string;
     genre: string;
     publicationDate: string;
+    reviews: Array<string>;
   };
 }
 
@@ -18,6 +18,7 @@ const initialState: IBookData = {
     author: "",
     genre: "",
     publicationDate: "",
+    reviews: [],
   },
 };
 
