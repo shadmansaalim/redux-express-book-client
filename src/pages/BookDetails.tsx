@@ -3,19 +3,23 @@ import Header from "../layouts/Header/Header";
 import Footer from "../layouts/Footer/Footer";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { useAppDispatch } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { setLoading, setUser } from "../redux/features/users/userSlice";
 import { auth } from "../lib/firebase";
 import { Card } from "react-bootstrap";
 import {
   useAddBookReviewMutation,
+  useDeleteBookMutation,
   useGetSingleBookQuery,
 } from "../redux/features/books/bookApi";
-import { produce } from "immer";
 import swal from "sweetalert";
+import { useNavigate } from "react-router";
 
 const BookDetails = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const { user } = useAppSelector((state) => state.users);
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -62,6 +66,19 @@ const BookDetails = () => {
     }
   };
 
+  const [deleteBook] = useDeleteBookMutation();
+
+  const handleDeleteBook = async () => {
+    const res: any = await deleteBook(id);
+
+    if (res?.data) {
+      swal("Book deleted successfully", "", "success");
+      navigate("/all-books");
+    } else {
+      swal("Failed to delete book", "", "error");
+    }
+  };
+
   return (
     <>
       <Header />
@@ -99,6 +116,13 @@ const BookDetails = () => {
           </Card>
         </div>
         <div className="col-6">
+          {user.email === data?.book?.email && (
+            <div className="mb-3">
+              <button onClick={handleDeleteBook} className="btn btn-danger">
+                Delete Book
+              </button>
+            </div>
+          )}
           <h4>Write your review</h4>
           <textarea
             onChange={(e) => setUserReview(e.target.value)}
