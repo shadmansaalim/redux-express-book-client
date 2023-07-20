@@ -19,6 +19,7 @@ export default function AddNewBook() {
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newBookData: any = { ...bookData };
     newBookData[e.target.name] = e.target.value;
+    console.log(newBookData);
     dispatch(setBookData(newBookData));
   };
 

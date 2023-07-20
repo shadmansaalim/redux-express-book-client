@@ -28,8 +28,8 @@ export const bookSlice = createSlice({
     resetBookData: (state) => {
       state.bookData = initialState.bookData;
     },
-    setBookData: (state, action: PayloadAction<IBookData>) => {
-      state.bookData = action.payload.bookData;
+    setBookData: (state, action) => {
+      state.bookData = action.payload;
     },
   },
 });
