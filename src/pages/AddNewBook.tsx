@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { setLoading, setUser } from "../redux/features/users/userSlice";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../lib/firebase";
+import swal from "sweetalert";
 
 export default function AddNewBook() {
   const { bookData }: IBookData = useAppSelector((state) => state.book);
@@ -42,12 +43,11 @@ export default function AddNewBook() {
     console.log(res);
 
     if (res?.data) {
-      alert("Success");
-
+      swal("Book added successfully", "", "success");
       resetBookData();
       navigate("/all-books");
     } else {
-      alert("Failed");
+      swal("Failed to add book", "", "error");
     }
   };
 

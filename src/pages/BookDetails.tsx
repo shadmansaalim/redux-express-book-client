@@ -12,6 +12,7 @@ import {
   useGetSingleBookQuery,
 } from "../redux/features/books/bookApi";
 import { produce } from "immer";
+import swal from "sweetalert";
 
 const BookDetails = () => {
   const dispatch = useAppDispatch();
@@ -33,7 +34,10 @@ const BookDetails = () => {
 
   const [userReview, setUserReview] = useState("");
 
-  const { data, isLoading } = useGetSingleBookQuery(id);
+  const { data, isLoading } = useGetSingleBookQuery(id, {
+    refetchOnMountOrArgChange: true,
+    pollingInterval: 30000,
+  });
 
   const [addBookReview] = useAddBookReviewMutation();
 
@@ -52,9 +56,9 @@ const BookDetails = () => {
     console.log(res);
 
     if (res?.data) {
-      alert("Success");
+      swal("Review added successfully", "", "success");
     } else {
-      alert("Failed");
+      swal("Failed to add review", "", "error");
     }
   };
 
