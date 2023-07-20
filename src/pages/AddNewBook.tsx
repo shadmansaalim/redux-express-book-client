@@ -9,6 +9,10 @@ import {
   setBookData,
 } from "../redux/features/books/bookSlice";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { setLoading, setUser } from "../redux/features/users/userSlice";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../lib/firebase";
 
 export default function AddNewBook() {
   const { bookData }: IBookData = useAppSelector((state) => state.book);
@@ -25,10 +29,12 @@ export default function AddNewBook() {
 
   const navigate = useNavigate();
 
+  const { user } = useAppSelector((state) => state.users);
+
   const handleBookSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    const res: any = await addBook(bookData);
+    const res: any = await addBook({ ...bookData, email: user.email });
 
     console.log(res);
 
@@ -41,6 +47,20 @@ export default function AddNewBook() {
       alert("Failed");
     }
   };
+
+  useEffect(() => {
+    dispatch(setLoading(true));
+
+    onAuthStateChanged(auth, (user) => {
+      console.log(user);
+      if (user) {
+        dispatch(setUser(user.email!));
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
+      }
+    });
+  }, [dispatch]);
 
   return (
     <>

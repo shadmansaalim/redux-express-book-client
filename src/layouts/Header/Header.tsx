@@ -58,7 +58,7 @@ export default function Header() {
                 id="profile-dropdown"
               >
                 <NavDropdown.Item eventKey="4.0" disabled>
-                  Name
+                  {user.email}
                 </NavDropdown.Item>
                 <NavDropdown.Item eventKey="4.1">
                   <FontAwesomeIcon className="me-2" icon={faUser} /> Profile
